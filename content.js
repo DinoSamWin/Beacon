@@ -139,13 +139,18 @@ function scanDOMForHighlights(highlights) {
         rawText += n.nodeValue;
     }
 
-    // 2. Build a normalized map (collapse redundant whitespace)
+    // 2. Build normalized maps
     let normToRaw = [];
     let normText = "";
+
+    let superNormToRaw = []; // Map alpha-only characters back to raw indices
+    let superNormText = "";
+
     for (let i = 0; i < rawText.length; i++) {
         const char = rawText[i];
+
+        // --- Standard Normalization (Collapsing whitespace) ---
         if (/\s/.test(char)) {
-            // Collapse to a single space
             if (!normText.endsWith(" ")) {
                 normToRaw.push(i);
                 normText += " ";
@@ -153,6 +158,13 @@ function scanDOMForHighlights(highlights) {
         } else {
             normToRaw.push(i);
             normText += char;
+        }
+
+        // --- Super Normalization (Alpha-Digit only) ---
+        // This is the ultimate fallback for when symbols/bullets break the string
+        if (/[a-zA-Z0-9\u4e00-\u9fa5]/.test(char)) { // Support Alphanumeric + Chinese
+            superNormToRaw.push(i);
+            superNormText += char;
         }
     }
 
@@ -175,50 +187,62 @@ function scanDOMForHighlights(highlights) {
 
             if (startNodeObj && endNodeObj) {
                 matches.push({
-                    startNode: startNodeObj.node,
-                    startOffset: rawStart - startNodeObj.start,
-                    endNode: endNodeObj.node,
-                    endOffset: rawEnd - endNodeObj.start,
-                    rawStart: rawStart,
-                    isFuzzy: false
+                    startNode: startNodeObj.node, startOffset: rawStart - startNodeObj.start,
+                    endNode: endNodeObj.node, endOffset: rawEnd - endNodeObj.start,
+                    rawStart: rawStart, isFuzzy: false
                 });
             }
             startPos += 1;
         }
 
-        // --- 2. Robust Fallback for Complex/Long Text ---
-        // If exact match fails and text is long (e.g. user selected multiple paragraphs),
-        // we try to anchor by the first 30 chars and last 30 chars.
+        // --- 2. Robust Fallback (Fuzzy Head-Tail) ---
         if (matches.length === 0 && searchNorm.length > 60) {
             const head = searchNorm.substring(0, 30);
             const tail = searchNorm.substring(searchNorm.length - 30);
 
             let headPos = 0;
             while ((headPos = normText.indexOf(head, headPos)) !== -1) {
-                // Look for the nearest tail within a reasonable distance (e.g. 2000 chars)
-                const lookaheadLimit = headPos + searchNorm.length + 500;
+                const lookaheadLimit = headPos + searchNorm.length + 1000;
                 let tailPos = normText.indexOf(tail, headPos + head.length);
-
                 if (tailPos !== -1 && tailPos < lookaheadLimit) {
-                    const endPos = tailPos + tail.length;
                     const rawStart = normToRaw[headPos];
-                    const rawEnd = normToRaw[endPos - 1] + 1;
+                    const rawEnd = normToRaw[tailPos + tail.length - 1] + 1;
+                    const startNodeObj = textNodes.find(tn => rawStart >= tn.start && rawStart < tn.end);
+                    const endNodeObj = textNodes.find(tn => rawEnd > tn.start && rawEnd <= tn.end);
+                    if (startNodeObj && endNodeObj) {
+                        matches.push({
+                            startNode: startNodeObj.node, startOffset: rawStart - startNodeObj.start,
+                            endNode: endNodeObj.node, endOffset: rawEnd - endNodeObj.start,
+                            rawStart: rawStart, isFuzzy: true
+                        });
+                    }
+                }
+                headPos += 1;
+            }
+        }
+
+        // --- 3. The "Ultimate" Fallback: Super-Normalized Alpha Mapping ---
+        // If everything else fails, we ignore all symbols, spaces, and formatting
+        if (matches.length === 0) {
+            const searchSuper = originalText.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, "");
+            if (searchSuper.length > 10) { // Only do this for meaningful chunks
+                let sPos = 0;
+                while ((sPos = superNormText.indexOf(searchSuper, sPos)) !== -1) {
+                    const rawStart = superNormToRaw[sPos];
+                    const rawEnd = superNormToRaw[sPos + searchSuper.length - 1] + 1;
 
                     const startNodeObj = textNodes.find(tn => rawStart >= tn.start && rawStart < tn.end);
                     const endNodeObj = textNodes.find(tn => rawEnd > tn.start && rawEnd <= tn.end);
 
                     if (startNodeObj && endNodeObj) {
                         matches.push({
-                            startNode: startNodeObj.node,
-                            startOffset: rawStart - startNodeObj.start,
-                            endNode: endNodeObj.node,
-                            endOffset: rawEnd - endNodeObj.start,
-                            rawStart: rawStart,
-                            isFuzzy: true
+                            startNode: startNodeObj.node, startOffset: rawStart - startNodeObj.start,
+                            endNode: endNodeObj.node, endOffset: rawEnd - endNodeObj.start,
+                            rawStart: rawStart, isFuzzy: true, isSuperFuzzy: true
                         });
                     }
+                    sPos += 1;
                 }
-                headPos += 1;
             }
         }
 
@@ -229,8 +253,6 @@ function scanDOMForHighlights(highlights) {
     requiredTexts.forEach(text => {
         const matches = findOccurrences(text);
         occurrencesMap[text] = matches;
-
-        // Also map to global order for sidebar sorting
         matches.forEach((m, idx) => {
             globalOrder.set(`${text}-${idx}`, m.rawStart);
         });

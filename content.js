@@ -163,14 +163,13 @@ function scanDOMForHighlights(highlights) {
 
         const matches = [];
         let startPos = 0;
+
+        // --- 1. Try Exact Match ---
         while ((startPos = normText.indexOf(searchNorm, startPos)) !== -1) {
             const endPos = startPos + searchNorm.length;
-
-            // Map back to raw indices
             const rawStart = normToRaw[startPos];
-            const rawEnd = normToRaw[endPos - 1] + 1; // index after the last character
+            const rawEnd = normToRaw[endPos - 1] + 1;
 
-            // Determine involved nodes for this range
             const startNodeObj = textNodes.find(tn => rawStart >= tn.start && rawStart < tn.end);
             const endNodeObj = textNodes.find(tn => rawEnd > tn.start && rawEnd <= tn.end);
 
@@ -180,11 +179,49 @@ function scanDOMForHighlights(highlights) {
                     startOffset: rawStart - startNodeObj.start,
                     endNode: endNodeObj.node,
                     endOffset: rawEnd - endNodeObj.start,
-                    rawStart: rawStart
+                    rawStart: rawStart,
+                    isFuzzy: false
                 });
             }
             startPos += 1;
         }
+
+        // --- 2. Robust Fallback for Complex/Long Text ---
+        // If exact match fails and text is long (e.g. user selected multiple paragraphs),
+        // we try to anchor by the first 30 chars and last 30 chars.
+        if (matches.length === 0 && searchNorm.length > 60) {
+            const head = searchNorm.substring(0, 30);
+            const tail = searchNorm.substring(searchNorm.length - 30);
+
+            let headPos = 0;
+            while ((headPos = normText.indexOf(head, headPos)) !== -1) {
+                // Look for the nearest tail within a reasonable distance (e.g. 2000 chars)
+                const lookaheadLimit = headPos + searchNorm.length + 500;
+                let tailPos = normText.indexOf(tail, headPos + head.length);
+
+                if (tailPos !== -1 && tailPos < lookaheadLimit) {
+                    const endPos = tailPos + tail.length;
+                    const rawStart = normToRaw[headPos];
+                    const rawEnd = normToRaw[endPos - 1] + 1;
+
+                    const startNodeObj = textNodes.find(tn => rawStart >= tn.start && rawStart < tn.end);
+                    const endNodeObj = textNodes.find(tn => rawEnd > tn.start && rawEnd <= tn.end);
+
+                    if (startNodeObj && endNodeObj) {
+                        matches.push({
+                            startNode: startNodeObj.node,
+                            startOffset: rawStart - startNodeObj.start,
+                            endNode: endNodeObj.node,
+                            endOffset: rawEnd - endNodeObj.start,
+                            rawStart: rawStart,
+                            isFuzzy: true
+                        });
+                    }
+                }
+                headPos += 1;
+            }
+        }
+
         return matches;
     }
 

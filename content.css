@@ -1,0 +1,212 @@
+#hl-ext-container {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  width: 32px;
+  /* Increased from 24px for a slightly larger scroll grabbing area */
+  padding-right: 4px;
+  /* Give some visual breathing room from absolute edge */
+  padding-left: 20px;
+  /* Invisible hover net buffer */
+
+  /* ENABLE scrolling on this div by catching mouse events */
+  pointer-events: auto;
+
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Hide scrollbar for aesthetics */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* IE/Edge */
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+  z-index: 2147483646;
+
+  /* Flexbox for stacking */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 8px;
+
+  /* Default inactive state: small, desaturated, semi-transparent */
+  filter: saturate(0.5) opacity(0.6);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  transform-origin: right center;
+
+  /* Allow scrolling if there are too many blocks */
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Hide scrollbar for clean look */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+}
+
+#hl-ext-container:hover {
+  /* Active state: full color, fully opaque */
+  filter: saturate(1) opacity(1);
+  transform: translateY(-50%) scale(1.1);
+  /* Slightly scale up wrapper */
+}
+
+/* Pseudo-element to ensure transparent areas catch scroll wheels */
+#hl-ext-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: -1;
+}
+
+#hl-ext-container::-webkit-scrollbar {
+  display: none;
+  /* WebKit */
+}
+
+.hl-ext-block {
+  position: relative;
+  width: 14px;
+  /* Increased from 12px */
+  height: 14px;
+  /* Increased from 12px */
+  /* Fixed height for stacking */
+  flex-shrink: 0;
+  /* Prevent squishing */
+  border-radius: 4px 0 0 4px;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.2);
+  transition: filter 0.2s ease, width 0.2s ease, height 0.2s ease;
+  transform-origin: right center;
+}
+
+.hl-ext-block:hover {
+  width: 20px;
+  /* Make it protrude more on hover */
+  height: 18px;
+  /* Make it thicker on hover */
+  filter: brightness(1.2);
+}
+
+#hl-ext-toast {
+  position: fixed;
+  right: 30px;
+  /* Space for the block and scrollbar */
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  width: max-content;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  z-index: 2147483647;
+  opacity: 0.9;
+  flex-shrink: 0;
+  /* Important: prevents blocks from squishing vertically when container overflows */
+  visibility: hidden;
+  transform: translateX(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  pointer-events: none;
+  /* Let hovers pass through unless it's fully visible */
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+#hl-ext-toast.hl-ext-toast-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.hl-ext-toast-content {
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.hl-ext-toast-delete {
+  cursor: pointer;
+  color: #999;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.15s;
+}
+
+.hl-ext-toast-delete:hover {
+  color: #ff4d4f;
+}
+
+.hl-ext-bottom-btn {
+  width: 14px;
+  height: 14px;
+  background-color: #e0e0e0;
+  color: #555;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  /* Ensure it is clickable */
+}
+
+.hl-ext-bottom-btn:hover {
+  background-color: #333;
+  color: #fff;
+  transform: scale(1.15);
+}
+
+.hl-ext-bottom-btn svg {
+  width: 8px;
+  height: 8px;
+}
+
+/* Base highlight markers logic mapped dynamically */
+::highlight(hl-ext-marker-0) {
+  background-color: var(--hl-ext-marker-0, rgba(255, 154, 158, 0.4));
+}
+
+::highlight(hl-ext-marker-1) {
+  background-color: var(--hl-ext-marker-1, rgba(132, 250, 176, 0.4));
+}
+
+::highlight(hl-ext-marker-2) {
+  background-color: var(--hl-ext-marker-2, rgba(255, 236, 210, 0.6));
+}
+
+::highlight(hl-ext-marker-3) {
+  background-color: var(--hl-ext-marker-3, rgba(161, 140, 209, 0.4));
+}
+
+::highlight(hl-ext-marker-4) {
+  background-color: var(--hl-ext-marker-4, rgba(137, 247, 254, 0.5));
+}
+
+::highlight(hl-ext-marker-5) {
+  background-color: var(--hl-ext-marker-5, rgba(253, 219, 146, 0.6));
+}

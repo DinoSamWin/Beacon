@@ -1,0 +1,166 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.container {
+    padding: 24px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.section {
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    margin: 0 0 12px 0;
+}
+
+.shortcut-display {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 8px;
+    color: #0056b3;
+    letter-spacing: 0.5px;
+}
+
+.shortcut-link {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.shortcut-link:hover {
+    text-decoration: underline;
+}
+
+/* Theme Options Styling */
+.theme-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.theme-option {
+    cursor: pointer;
+}
+
+.theme-option input[type="radio"] {
+    display: none;
+}
+
+.theme-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.theme-option input[type="radio"]:checked+.theme-card {
+    border-color: #007bff;
+    background: #f0f7ff;
+}
+
+.theme-preview {
+    display: flex;
+    gap: 4px;
+}
+
+.color-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.theme-card span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.danger-btn {
+    background-color: #ff4d4f;
+    color: white;
+}
+
+.danger-btn:hover {
+    background-color: #ff7875;
+}
+
+.secondary-btn {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #d9d9d9;
+}
+
+.secondary-btn:hover {
+    background-color: #e6e6e6;
+}
+
+/* Dialog */
+.confirm-dialog {
+    margin-top: 12px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #ffccc7;
+    border-radius: 8px;
+}
+
+.confirm-dialog p {
+    margin: 0 0 16px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #ff4d4f;
+}
+
+.dialog-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.hidden {
+    display: none !important;
+}

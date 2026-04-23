@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beacon - 隐私政策与产品说明</title>
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --text-main: #1F2937;
+            --text-sub: #4B5563;
+            --bg-gray: #F9FAFB;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #fff;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .logo {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 8px; color: var(--primary); }
+        h2 { font-size: 1.5rem; margin-top: 40px; border-bottom: 2px solid var(--bg-gray); padding-bottom: 8px; }
+        p { margin-bottom: 1.2rem; }
+        .card {
+            background: var(--bg-gray);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            border: 1px solid #E5E7EB;
+        }
+        ul { margin-bottom: 1.2rem; padding-left: 20px; }
+        li { margin-bottom: 0.5rem; }
+        .footer {
+            margin-top: 80px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            border-top: 1px solid #EEE;
+            padding-top: 20px;
+        }
+        .badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="icons/icon128.png" alt="Beacon Logo" class="logo" onerror="this.src='https://raw.githubusercontent.com/DinoSamWin/Beacon/main/icons/icon128.png'">
+        <h1>Beacon</h1>
+        <p>你的专属资料采集与核心信息标记工具</p>
+    </div>
+
+    <div class="card">
+        <strong>隐私承诺：</strong> Beacon 是一款“本地优先”的工具。我们不收集、不上传、不分享任何用户信息或浏览数据。
+    </div>
+
+    <h2>1. 产品概述</h2>
+    <p>Beacon 是一款极简、无干扰的 Chrome 浏览器插件，专为深度阅读、资料搜集和长文研究设计。它允许用户在任何网页上为选中的文本添加高亮标记，并在页面右侧边缘生成位置对应的颜色模块。通过点击这些颜色模块，用户可以瞬间精准定位回原文位置。</p>
+
+    <h2>2. 数据收集与使用 (隐私政策)</h2>
+    <p>我们深知隐私的重要性，因此 Beacon 在设计之初就遵循了<strong>零数据收集</strong>原则：</p>
+    <ul>
+        <li><strong>本地存储：</strong> 所有的标注数据（包括高亮文本、网页 URL 和标题）均保存在您浏览器的本地存储（Local Storage）中。</li>
+        <li><strong>无服务器：</strong> 我们不运行任何后端服务器，您的数据永远不会离开您的设备。</li>
+        <li><strong>无追踪：</strong> 插件不包含任何分析工具、追踪器或第三方广告脚本。</li>
+        <li><strong>权限说明：</strong> 我们请求 <code>storage</code> 权限用于保存标记，<code>scripting</code> 和 <code>activeTab</code> 用于在网页上渲染高亮块。所有操作均在本地完成。</li>
+    </ul>
+
+    <h2>3. 核心功能</h2>
+    <ul>
+        <li><strong>快捷标注:</strong> 选中文本后使用快捷键立即生成标记，不打断阅读流。</li>
+        <li><strong>智能定位:</strong> 点击侧边色块，瞬间平滑滚动并绝对聚焦到原文本位置。</li>
+        <li><strong>沉浸式设计:</strong> 莫兰迪色系高亮，闲置时低透明度，交互时动态放大。</li>
+        <li><strong>管理侧边栏:</strong> 提供直观的标记列表管理与一键清除功能。</li>
+    </ul>
+
+    <h2>4. 联系我们</h2>
+    <p>如果您有任何建议或问题，欢迎通过 GitHub 项目主页与我们联系。</p>
+
+    <div class="footer">
+        <p>&copy; 2026 Beacon Project. All rights reserved.</p>
+        <p>致力于提供纯净、高效的阅读辅助体验。</p>
+    </div>
+</body>
+</html>

@@ -2,189 +2,187 @@
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  right: 0;
-  width: 32px;
-  /* Increased from 24px for a slightly larger scroll grabbing area */
-  padding-right: 4px;
-  /* Give some visual breathing room from absolute edge */
-  padding-left: 20px;
-  /* Invisible hover net buffer */
-
-  /* ENABLE scrolling on this div by catching mouse events */
-  pointer-events: auto;
-
-  max-height: 80vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  /* Hide scrollbar for aesthetics */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  /* IE/Edge */
-
-  padding-top: 20px;
-  padding-bottom: 20px;
-  z-index: 2147483646;
-
-  /* Flexbox for stacking */
+  right: 12px;
+  width: 36px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
-  gap: 8px;
-
-  /* Default inactive state: small, desaturated, semi-transparent */
-  filter: saturate(0.5) opacity(0.6);
-  transition: filter 0.3s ease, transform 0.3s ease;
-  transform-origin: right center;
-
-  /* Allow scrolling if there are too many blocks */
+  align-items: center;
+  padding: 12px 0;
+  gap: 10px;
+  z-index: 2147483646;
+  border: 1px solid #F3F4F6;
+  max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
-
-  /* Hide scrollbar for clean look */
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* Internet Explorer 10+ */
+  scroll-behavior: smooth;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
-#hl-ext-container:hover {
-  /* Active state: full color, fully opaque */
-  filter: saturate(1) opacity(1);
-  transform: translateY(-50%) scale(1.1);
-  /* Slightly scale up wrapper */
+#hl-ext-container.hl-hidden {
+  opacity: 0 !important;
+  visibility: hidden;
+  transform: translateY(-50%) translateX(20px);
 }
+#hl-ext-container::-webkit-scrollbar { display: none; }
 
-/* Pseudo-element to ensure transparent areas catch scroll wheels */
-#hl-ext-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  z-index: -1;
-}
-
-#hl-ext-container::-webkit-scrollbar {
-  display: none;
-  /* WebKit */
+.hl-ext-pill-icon {
+  color: #9CA3AF;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  cursor: pointer;
+  margin-bottom: 2px;
+  display: none; /* Removed confusing top icon */
 }
 
 .hl-ext-block {
-  position: relative;
-  width: 14px;
-  /* Increased from 12px */
-  height: 14px;
-  /* Increased from 12px */
-  /* Fixed height for stacking */
-  flex-shrink: 0;
-  /* Prevent squishing */
-  border-radius: 4px 0 0 4px;
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50%;
   cursor: pointer;
-  pointer-events: auto;
-  box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.2);
-  transition: filter 0.2s ease, width 0.2s ease, height 0.2s ease;
-  transform-origin: right center;
+  box-shadow: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+  position: relative;
+  /* Background will be set in JS, supports gradients */
 }
 
-.hl-ext-block:hover {
-  width: 20px;
-  /* Make it protrude more on hover */
-  height: 18px;
-  /* Make it thicker on hover */
-  filter: brightness(1.2);
+/* Form the hollow center white cutout */
+.hl-ext-block::after {
+  content: '';
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  right: 2.5px;
+  bottom: 2.5px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.2s ease;
 }
+
+.hl-ext-block:hover, .hl-ext-block.active {
+  transform: scale(1.2) !important;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #3B82F6;
+}
+
+/* Fill the ring when active for an inverted effect */
+.hl-ext-block.active::after {
+  background: transparent;
+}
+
+.hl-ext-bottom-btn {
+  width: 16px;
+  height: 16px;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 2px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.hl-ext-bottom-btn:hover { color: #4B5563; }
+.hl-ext-bottom-btn svg { width: 14px; height: 14px; }
 
 #hl-ext-toast {
   position: fixed;
-  right: 30px;
-  /* Space for the block and scrollbar */
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
   background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 12px;
-  width: max-content;
-  max-width: 300px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  width: 320px;
+  max-height: 80vh;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #333;
+  color: #111827;
   z-index: 2147483647;
-  opacity: 0.9;
-  flex-shrink: 0;
-  /* Important: prevents blocks from squishing vertically when container overflows */
+  opacity: 0;
   visibility: hidden;
-  transform: translateX(10px);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  pointer-events: none;
-  /* Let hovers pass through unless it's fully visible */
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  flex-direction: column;
+  pointer-events: none;
 }
 
 #hl-ext-toast.hl-ext-toast-visible {
   opacity: 1;
   visibility: visible;
-  transform: translateX(0);
+  transform: translateY(-50%) translateX(0);
   pointer-events: auto;
 }
 
-.hl-ext-toast-content {
-  flex-grow: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
+/* Card internals */
+.hl-toast-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 12px 20px;
 }
+.hl-toast-header-left { display: flex; align-items: center; gap: 8px; }
+.hl-toast-header h2 { margin:0; font-size:15px; font-weight:600; }
+.hl-toast-icon { width: 18px; height: 18px; color: #4B5563; }
 
-.hl-ext-toast-delete {
-  cursor: pointer;
-  color: #999;
-  font-size: 18px;
-  line-height: 1;
-  padding: 0 4px;
-  transition: color 0.15s;
+.hl-toast-sub {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px 12px 20px; font-size: 13px; color: #6B7280; font-weight: 500;
 }
-
-.hl-ext-toast-delete:hover {
-  color: #ff4d4f;
+.hl-toast-clear { 
+  background:none; border:none; color:#6B7280; cursor:pointer; font-size:13px; font-weight: 500; padding:0; 
 }
+.hl-toast-clear:hover { color:#111; }
 
-.hl-ext-bottom-btn {
-  width: 14px;
-  height: 14px;
-  background-color: #e0e0e0;
-  color: #555;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin-top: 8px;
-  flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+.hl-toast-list { 
+  overflow-y: auto; padding: 0 20px 16px 20px; 
+  display: flex; flex-direction: column; gap: 8px;
+  scrollbar-width: thin;
+}
+.hl-toast-item {
+  display:flex; align-items:center; gap:12px; padding:10px 12px;
+  border: 1px solid #F3F4F6; border-radius: 10px; cursor: pointer;
+  transition: all 0.2s ease; background: #fff;
+}
+.hl-toast-item:hover { background: #F9FAFB; border-color: #E5E7EB; }
+.hl-toast-item.active { border-color: #3B82F6; background: #EFF6FF; }
+
+.hl-toast-badge { 
+  width: 22px; height: 22px; border-radius: 50%; 
+  display:flex; align-items:center; justify-content:center; 
+  color:white; font-size: 11px; font-weight:600; flex-shrink:0;
+}
+.hl-toast-text { 
+  flex-grow:1; font-size: 13px; color: #374151; line-height: 1.4;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.hl-toast-delete { 
+  background: transparent; 
+  border: none; 
+  color: #9CA3AF; 
+  width: 24px; 
+  height: 24px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: pointer; 
+  border-radius: 6px; 
+  padding: 0; 
+  flex-shrink: 0; 
   transition: all 0.2s ease;
-  pointer-events: auto;
-  /* Ensure it is clickable */
+}
+.hl-toast-delete:hover { 
+  background: #FEE2E2; 
+  color: #EF4444; 
+}
+.hl-toast-delete svg { 
+  width: 14px; 
+  height: 14px; 
 }
 
-.hl-ext-bottom-btn:hover {
-  background-color: #333;
-  color: #fff;
-  transform: scale(1.15);
-}
-
-.hl-ext-bottom-btn svg {
-  width: 8px;
-  height: 8px;
-}
 
 /* Base highlight markers logic mapped dynamically */
 ::highlight(hl-ext-marker-0) {
@@ -209,4 +207,30 @@
 
 ::highlight(hl-ext-marker-5) {
   background-color: var(--hl-ext-marker-5, rgba(253, 219, 146, 0.6));
+}
+
+/* Breathing animation for jump focus */
+@keyframes hl-pulse-breathing {
+  0% { box-shadow: 0 0 0 0px rgba(59, 130, 246, 0.7); transform: scale(1.2); }
+  50% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); transform: scale(1.35); }
+  100% { box-shadow: 0 0 0 0px rgba(59, 130, 246, 0); transform: scale(1.2); }
+}
+
+.hl-ext-block.hl-pulse {
+  animation: hl-pulse-breathing 1.5s ease-in-out infinite;
+  z-index: 2147483647;
+}
+
+@keyframes hl-jump-glow {
+  0% { box-shadow: 0 0 0 0px rgba(59, 130, 246, 0.6); background: rgba(59, 130, 246, 0.1); }
+  50% { box-shadow: 0 0 20px 10px rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.3); }
+  100% { box-shadow: 0 0 0 0px rgba(59, 130, 246, 0); background: rgba(59, 130, 246, 0); }
+}
+
+.hl-jump-overlay {
+  position: absolute;
+  z-index: 2147483647;
+  pointer-events: none;
+  border-radius: 4px;
+  animation: hl-jump-glow 1s ease-in-out 3; /* Pulse 3 times */
 }

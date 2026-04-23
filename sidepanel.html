@@ -1,126 +1,138 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="sidepanel.css">
 </head>
-
 <body>
-    <div class="container">
+    <div class="card-wrapper">
         <div class="header">
-            <img src="icons/icon48.png" alt="Icon" width="24" height="24">
-            <h2>Beacon</h2>
-        </div>
-
-        <div class="section shortcut-section">
-            <p class="section-title">Shortcut to Add Highlight:</p>
-            <div class="shortcut-display" id="shortcut-display">Loading...</div>
-            <a href="#" id="open-shortcuts" class="shortcut-link">Customize Shortcuts</a>
-        </div>
-
-        <div class="section theme-section">
-            <p class="section-title">Highlight Theme:</p>
-            <div class="theme-options">
-                <label class="theme-option">
-                    <input type="radio" name="theme" value="vibrant" checked>
-                    <div class="theme-card">
-                        <div class="theme-preview">
-                            <div class="color-dot" style="background: linear-gradient(135deg, #FF9A9E, #FECFEF);"></div>
-                            <div class="color-dot" style="background: linear-gradient(135deg, #84FAB0, #8FD3F4);"></div>
-                            <div class="color-dot" style="background: linear-gradient(135deg, #FFECD2, #FCB69F);"></div>
-                            <div class="color-dot" style="background: linear-gradient(135deg, #A18CD1, #FBC2EB);"></div>
-                            <div class="color-dot" style="background: linear-gradient(135deg, #89F7FE, #66A6FF);"></div>
-                        </div>
-                        <span>Vibrant Gradient</span>
-                    </div>
-                </label>
-
-                <label class="theme-option">
-                    <input type="radio" name="theme" value="ocean">
-                    <div class="theme-card">
-                        <div class="theme-preview">
-                            <div class="color-dot" style="background: #37BBC8;"></div>
-                            <div class="color-dot" style="background: #0191B4;"></div>
-                            <div class="color-dot" style="background: #F8D70E;"></div>
-                            <div class="color-dot" style="background: #D2DE18;"></div>
-                            <div class="color-dot" style="background: #FE7A15;"></div>
-                        </div>
-                        <span>Ocean & Gold</span>
-                    </div>
-                </label>
-
-                <label class="theme-option">
-                    <input type="radio" name="theme" value="sunset">
-                    <div class="theme-card">
-                        <div class="theme-preview">
-                            <div class="color-dot" style="background: #F0EAD8;"></div>
-                            <div class="color-dot" style="background: #F73668;"></div>
-                            <div class="color-dot" style="background: #FF7F75;"></div>
-                            <div class="color-dot" style="background: #F73668;"></div>
-                            <div class="color-dot" style="background: #021E66;"></div>
-                        </div>
-                        <span>Berry Sunset</span>
-                    </div>
-                </label>
-
-                <label class="theme-option">
-                    <input type="radio" name="theme" value="aurora">
-                    <div class="theme-card">
-                        <div class="theme-preview">
-                            <div class="color-dot" style="background: #D7B0DB;"></div>
-                            <div class="color-dot" style="background: #3A3087;"></div>
-                            <div class="color-dot" style="background: #753BA5;"></div>
-                            <div class="color-dot" style="background: #6B79CE;"></div>
-                            <div class="color-dot" style="background: #EC5955;"></div>
-                        </div>
-                        <span>Classic Aurora</span>
-                    </div>
-                </label>
-
-                <label class="theme-option">
-                    <input type="radio" name="theme" value="pastel">
-                    <div class="theme-card">
-                        <div class="theme-preview">
-                            <div class="color-dot" style="background: #EE39B2;"></div>
-                            <div class="color-dot" style="background: #6979F3;"></div>
-                            <div class="color-dot" style="background: #23B0FF;"></div>
-                            <div class="color-dot" style="background: #FF9202;"></div>
-                            <div class="color-dot" style="background: #FF615E;"></div>
-                        </div>
-                        <span>Modern Pastel</span>
-                    </div>
-                </label>
-
-                <label class="theme-option">
-                    <input type="radio" name="theme" value="monochrome">
-                    <div class="theme-card">
-                        <div class="theme-preview">
-                            <div class="color-dot" style="background: #333333;"></div>
-                            <div class="color-dot" style="background: #777777;"></div>
-                            <div class="color-dot" style="background: #999999;"></div>
-                            <div class="color-dot" style="background: #BBBBBB;"></div>
-                            <div class="color-dot" style="background: #CCCCCC;"></div>
-                        </div>
-                        <span>Monochrome</span>
-                    </div>
-                </label>
+            <div class="header-left">
+                <svg class="icon icon-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <h2>Page Markers</h2>
+            </div>
+            <div class="header-right">
+                <div class="settings-btn" id="settings-btn" title="Settings">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </div>
             </div>
         </div>
 
-        <div class="section actions-section">
-            <button id="clear-btn" class="danger-btn">Clear Page Highlights</button>
+        <!-- Main View -->
+        <div id="main-view" class="view-content">
+            <div class="sub-header">
+                <span class="marker-count" id="marker-count">0 markers</span>
+                <button class="clear-all-btn" id="clear-all-btn">Clear all</button>
+            </div>
 
-            <div id="confirm-dialog" class="hidden confirm-dialog">
-                <p>Are you sure you want to clear all highlights on the <strong>current active tab</strong>?</p>
-                <div class="dialog-actions">
-                    <button id="cancel-clear" class="secondary-btn">Cancel</button>
-                    <button id="confirm-clear" class="danger-btn">Clear</button>
+            <div class="markers-list" id="markers-list">
+                <!-- Marker items injected here -->
+            </div>
+        </div>
+
+        <!-- Settings View (Themes etc) -->
+        <div id="settings-view" class="view-content hidden">
+            <div class="settings-header">
+                <button class="back-btn" id="back-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back
+                </button>
+                <h3>Settings</h3>
+            </div>
+            
+            <div class="settings-body">
+                <div class="section">
+                    <p class="section-title">Highlight Theme:</p>
+                    <div class="theme-options">
+                        <!-- Themes with Color Previews -->
+                        <label class="theme-option">
+                            <input type="radio" name="theme" value="vibrant" checked>
+                            <div class="theme-card">
+                                <div class="theme-preview" data-theme="vibrant">
+                                    <span style="background: #FF9A9E"></span>
+                                    <span style="background: #84FAB0"></span>
+                                    <span style="background: #FFECD2"></span>
+                                    <span style="background: #A18CD1"></span>
+                                </div>
+                                <span class="theme-name">Vibrant Gradient</span>
+                            </div>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="theme" value="ocean">
+                            <div class="theme-card">
+                                <div class="theme-preview" data-theme="ocean">
+                                    <span style="background: #37BBC8"></span>
+                                    <span style="background: #0191B4"></span>
+                                    <span style="background: #F8D70E"></span>
+                                    <span style="background: #D2DE18"></span>
+                                </div>
+                                <span class="theme-name">Ocean & Gold</span>
+                            </div>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="theme" value="sunset">
+                            <div class="theme-card">
+                                <div class="theme-preview" data-theme="sunset">
+                                    <span style="background: #F0EAD8"></span>
+                                    <span style="background: #F73668"></span>
+                                    <span style="background: #FF7F75"></span>
+                                    <span style="background: #021E66"></span>
+                                </div>
+                                <span class="theme-name">Berry Sunset</span>
+                            </div>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="theme" value="aurora">
+                            <div class="theme-card">
+                                <div class="theme-preview" data-theme="aurora">
+                                    <span style="background: #D7B0DB"></span>
+                                    <span style="background: #3A3087"></span>
+                                    <span style="background: #753BA5"></span>
+                                    <span style="background: #6B79CE"></span>
+                                </div>
+                                <span class="theme-name">Classic Aurora</span>
+                            </div>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="theme" value="pastel">
+                            <div class="theme-card">
+                                <div class="theme-preview" data-theme="pastel">
+                                    <span style="background: #EE39B2"></span>
+                                    <span style="background: #6979F3"></span>
+                                    <span style="background: #23B0FF"></span>
+                                    <span style="background: #FF9202"></span>
+                                </div>
+                                <span class="theme-name">Modern Pastel</span>
+                            </div>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="theme" value="monochrome">
+                            <div class="theme-card">
+                                <div class="theme-preview" data-theme="monochrome">
+                                    <span style="background: #333"></span>
+                                    <span style="background: #666"></span>
+                                    <span style="background: #999"></span>
+                                    <span style="background: #ccc"></span>
+                                </div>
+                                <span class="theme-name">Monochrome</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section shortcut-section-settings">
+                    <p class="section-title">Global Shortcut:</p>
+                    <div class="shortcut-display" id="shortcut-display">Loading...</div>
+                    <a href="#" id="open-shortcuts" class="shortcut-link">Customize Shortcuts</a>
                 </div>
             </div>
         </div>
     </div>
     <script src="sidepanel.js"></script>
 </body>
-
 </html>

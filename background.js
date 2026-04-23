@@ -12,36 +12,22 @@ chrome.commands.onCommand.addListener((command) => {
     });
   }
 });
-// Maintain an open state per tab to allow toggling
-const tabStates = {};
+// Setup side panel behavior to open natively on icon click
+chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {});
 
-chrome.action.onClicked.addListener(async (tab) => {
-  if (tab.id) {
-    try {
-      // Toggle logic using memory state
-      if (tabStates[tab.id]) {
-        await chrome.sidePanel.setOptions({
-          tabId: tab.id,
-          enabled: false
-        });
-        tabStates[tab.id] = false;
-      } else {
-        await chrome.sidePanel.setOptions({
-          tabId: tab.id,
-          path: 'sidepanel.html',
-          enabled: true
-        });
-        await chrome.sidePanel.open({ tabId: tab.id });
-        tabStates[tab.id] = true;
-      }
-    } catch (e) {
-      console.error("Side panel toggle error:", e);
-    }
-  }
+chrome.action.onClicked.addListener((tab) => {
+  if (!tab.id || tab.url.startsWith('chrome://')) return;
+
+  // Ensure sidepanel is enabled for this tab and has the correct path
+  chrome.sidePanel.setOptions({
+    tabId: tab.id,
+    path: 'sidepanel.html',
+    enabled: true
+  });
 });
 
 chrome.tabs.onRemoved.addListener((tabId) => {
-  delete tabStates[tabId];
+  // No longer need tabStates
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
